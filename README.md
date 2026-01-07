@@ -36,7 +36,7 @@ Examples page:
 UPPER case, maximal font size of 30 points, 4 phrases per page with all lines around the phrases/terms:
 
 ```bash
-python make_cutbook_pdf.py --input .\phrases\phrases_en.txt --output output_de.pdf --case upper --max-font 30 --phrases-per-page 4 --cut-guides all
+python make_cutbook_pdf.py --input .\phrases\phrases_en.txt --output output_en.pdf --case upper --max-font 30 --phrases-per-page 4 --cut-guides all
 ```
 Example page:
 
