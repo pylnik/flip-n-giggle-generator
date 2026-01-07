@@ -29,12 +29,18 @@ Then run:
 python make_cutbook_pdf.py --input phrases.txt --output output.pdf
 ```
 
-Common options:
+Examples page:
+
+<img width="454" height="641" alt="grafik" src="https://github.com/user-attachments/assets/6ddcc129-2aa1-461e-bc14-c03c06169b35" />
+
+UPPER case, maximal font size of 30 points, 4 phrases per page with all lines around the phrases/terms:
 
 ```bash
 python make_cutbook_pdf.py --input .\phrases\phrases_en.txt --output output_de.pdf --case upper --max-font 30 --phrases-per-page 4 --cut-guides all
 ```
-Example page: ![alt text](images\image_4phrases.png)
+Example page:
+
+![alt text](images/image_4phrases.png)
 
 Change text case:
 
