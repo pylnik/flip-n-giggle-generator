@@ -85,3 +85,8 @@ The `phrases/` folder contains sample input files in `A / B / C` format:
 
 - Python 3.8 or higher
 - reportlab
+
+
+<a href="https://www.buymeacoffee.com/pylnik">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" width="120">
+</a>
