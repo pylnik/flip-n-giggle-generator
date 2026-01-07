@@ -1,141 +1,81 @@
-# Flip-n-Giggle Generator
+# Cut-Book PDF Generator
 
-A Python application that generates children's flip books where each page contains a "noun verb noun" sentence. The pages are designed to be cut into three parts, allowing each word to flip independently to create humorous sentence combinations.
+A standalone Python script that builds printable cut-book PDFs. Each phrase is split into three strips (A / B / C) so you can cut and flip them independently.
 
 ## Features
 
-- 🎨 Generate random "noun verb noun" sentences
-- 📚 Create complete flip books with multiple pages
-- 🖨️ Format output for printing and cutting
-- 🎲 Thousands of possible funny combinations
-- ⚙️ Customizable word lists
-- 📊 Statistics on possible combinations
+- 1, 2, or 4 phrases per page
+- Big, centered text with per-line sizing
+- Optional cut guides (internal, box, or both)
+- Case control: normal, upper, lower, sentence
+- Windows-friendly font auto-detection (C:\\Windows\\Fonts)
 
 ## Installation
 
-1. Clone this repository:
 ```bash
-git clone https://github.com/yourusername/flip-n-giggle-generator.git
-cd flip-n-giggle-generator
+pip install -r requirements.txt
 ```
-
-2. No external dependencies required - uses Python standard library only!
 
 ## Usage
 
-### Basic Usage
+Prepare a text file with phrases in one of these formats:
 
-Generate 10 flip book pages and display them:
-```bash
-python main.py
-```
+- One phrase per line, delimited: `A / B / C` (also `|` or `;`)
+- Blocks of 3 lines separated by a blank line
 
-### Generate Custom Number of Pages
+Then run:
 
 ```bash
-python main.py -n 20
+python make_cutbook_pdf.py --input phrases.txt --output output.pdf
 ```
 
-### Save to File
+Common options:
 
 ```bash
-python main.py -o myflipbook.txt
+python make_cutbook_pdf.py --input .\phrases\phrases_en.txt --output output_de.pdf --case upper --max-font 30 --phrases-per-page 4 --cut-guides all
 ```
+Example page: ![alt text](images\image_4phrases.png)
 
-### Different Output Formats
-
-List format (simple):
-```bash
-python main.py -f list
-```
-
-Print format (with cut lines):
-```bash
-python main.py -f print
-```
-
-### Show Statistics
+Change text case:
 
 ```bash
-python main.py --show-stats
+python make_cutbook_pdf.py --input phrases.txt --output output.pdf --case upper
 ```
 
-## Example Output
+If Cyrillic does not render, specify a font file:
 
-```
-===========================================================
-              FLIP-N-GIGGLE BOOK
-===========================================================
-
-                     Page 1
------------------------------------------------------------
-|                     The cat                        |  <- Cut here
------------------------------------------------------------
-|                     tickles                        |  <- Cut here
------------------------------------------------------------
-|                    a balloon                       |
------------------------------------------------------------
+```bash
+python make_cutbook_pdf.py --input phrases.txt --output output.pdf --font-file "C:\\Windows\\Fonts\\arial.ttf"
 ```
 
-## How to Make Your Flip Book
+## Arguments
 
-1. Run the program and save output to a file
-2. Print the pages
-3. Cut along the lines marked "Cut here"
-4. Stack the pages and bind them on the left side
-5. Flip each section independently to create funny sentences!
+- `--input` Input text file with phrases (default: `phrases.txt`)
+- `--output` Output PDF path (default: `cutbook.pdf`)
+- `--encoding` Input file encoding (default: `utf-8-sig`)
+- `--pagesize` Page size: `A4` or `LETTER` (default: `A4`)
+- `--font-file` Path to a TTF font file (optional)
+- `--font-name` Internal font name when registering a TTF (default: `CutBookFont`)
+- `--max-font` Max font size in points (default: `110`)
+- `--min-font` Min font size in points (default: `26`)
+- `--margin` Outer page margin in points (default: `48`)
+- `--padding` Inner padding inside each phrase box in points (default: `18`)
+- `--leading-mult` Line spacing multiplier (default: `2.15`)
+- `--extra-gap` Extra points added to line spacing (default: `10.0`)
+- `--phrases-per-page` Phrases per page: `1`, `2`, or `4` (default: `1`)
+- `--gutter` Gap between phrase boxes in points (default: `18.0`)
+- `--cut-guides` Guide lines: `none`, `internal`, `box`, `all` (default: `internal`)
+- `--case` Text case: `none`, `upper`, `lower`, `sentence` (default: `none`)
 
-## Project Structure
+## Example Phrase Files
 
-```
-flip-n-giggle-generator/
-├── flipbook/
-│   ├── __init__.py
-│   ├── generator.py      # Core sentence generation logic
-│   ├── word_lists.py     # Default word lists
-│   └── formatter.py      # Output formatting
-├── main.py               # Command-line interface
-├── README.md
-└── requirements.txt
-```
+The `phrases/` folder contains sample input files in `A / B / C` format:
 
-## Customization
-
-You can customize the word lists by editing [flipbook/word_lists.py](flipbook/word_lists.py) or by creating your own lists and passing them to the `FlipBookGenerator` class.
-
-## Python API
-
-```python
-from flipbook.generator import FlipBookGenerator
-from flipbook.formatter import FlipBookFormatter
-
-# Create generator
-generator = FlipBookGenerator()
-
-# Generate sentences
-sentences = generator.generate_book(num_pages=5)
-
-# Format for output
-formatter = FlipBookFormatter(generator)
-print(formatter.format_for_print(sentences))
-```
+- `phrases/phrases_en.txt`
+- `phrases/phrases_ru.txt`
+- `phrases/phrases_de.txt`
 
 ## Requirements
 
 - Python 3.8 or higher
-
-## License
-
-MIT License - feel free to use this for educational purposes!
-
-## Contributing
-
-Contributions are welcome! Feel free to submit issues or pull requests.
-
-## Ideas for Enhancement
-
-- Add support for different sentence structures
-- Create PDF output with proper page formatting
-- Add illustrations or emoji support
-- Web interface for generating flip books
-- Multi-language support
+- reportlab

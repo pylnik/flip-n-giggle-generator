@@ -135,4 +135,6 @@ Thumbs.db
 
 # Output files
 *.txt
+!phrases*.txt
 !requirements.txt
+*.pdf
