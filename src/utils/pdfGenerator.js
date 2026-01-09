@@ -1,4 +1,5 @@
 import jsPDF from 'jspdf'
+import { RobotoRegularFont } from '../fonts/Roboto-Regular.js'
 
 // Page sizes in points (1 point = 1/72 inch)
 const PAGE_SIZES = {
@@ -158,7 +159,10 @@ export async function generateFlipBookPDF(phrases, config) {
     format: [pageW, pageH]
   })
 
-  pdf.setFont('helvetica')
+  // Add Roboto font with Cyrillic support
+  pdf.addFileToVFS('Roboto-Regular.ttf', RobotoRegularFont)
+  pdf.addFont('Roboto-Regular.ttf', 'Roboto', 'normal')
+  pdf.setFont('Roboto')
 
   const slots = makeSlots(pageW, pageH, margin, phrasesPerPage, gutter)
   let idx = 0
