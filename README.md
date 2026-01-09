@@ -10,7 +10,8 @@ An interactive Vue.js website that generates flip-n-giggle books directly in you
 
 - 📱 **Mobile-first responsive design** - works on phones, tablets, and desktops
 - 🎨 **Browser-based PDF generation** - no server-side processing needed
-- 🌍 **Multi-language presets** - English, German, and Russian phrases included
+- 🌍 **Multilingual UI** - interface automatically adapts to your system language (English, German, Russian)
+- 📚 **Multi-language presets** - English, German, and Russian phrases included
 - ⚙️ **User-friendly interface** - essential settings up front, advanced options hidden
 - 📥 **Instant download** - generate and download PDFs in seconds
 
