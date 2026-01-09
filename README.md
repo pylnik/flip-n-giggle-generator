@@ -17,19 +17,22 @@ An interactive Vue.js website that generates flip-n-giggle books directly in you
 
 ### Quick Start
 
-1. **Install dependencies:**
+1. **Install dependencies for both frontend and server:**
 ```bash
-npm install
+cd frontend && npm install
+cd ../server && npm install
 ```
 
-2. **Start the development server:**
+2. **Start the API server:**
 ```bash
+cd server
+npm start
+```
+
+3. **Start the development server (in a separate terminal):**
+```bash
+cd frontend
 npm run dev
-```
-
-3. **Start the API server (in a separate terminal):**
-```bash
-npm run server
 ```
 
 4. **Open your browser:**
@@ -38,11 +41,12 @@ Navigate to `http://localhost:3000`
 ### Building for Production
 
 ```bash
+cd frontend
 npm run build
 npm run preview
 ```
 
-The built files will be in the `dist/` directory.
+The built files will be in the `frontend/dist/` directory.
 
 ### How to Use the Web App
 

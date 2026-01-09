@@ -238,8 +238,14 @@ export default {
       success.value = ''
       
       try {
-        const response = await fetch(`http://localhost:3001/api/phrases/${presetId}`)
+        const response = await fetch(`/api/phrases/${presetId}`)
         if (!response.ok) throw new Error('Failed to load preset')
+        
+        // Check if response is JSON
+        const contentType = response.headers.get('content-type')
+        if (!contentType || !contentType.startsWith('application/json')) {
+          throw new Error('Server returned an error response. Please ensure the API server is running.')
+        }
         
         const data = await response.json()
         phrasesText.value = data.phrases.join('\n')
