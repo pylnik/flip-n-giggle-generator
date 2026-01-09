@@ -84,6 +84,36 @@ The frontend can be configured to connect to a separate server domain:
 
 **Note:** For local development, you can leave `VITE_API_BASE_URL` empty to use Vite's built-in proxy configuration.
 
+### Deployment
+
+When deploying the frontend and server separately:
+
+1. **Deploy the API Server:**
+   - Upload the `server/` directory to your server
+   - Install dependencies: `npm install`
+   - Start the server: `npm start` (or use a process manager like PM2)
+   - Ensure the server is accessible via HTTPS for production
+   - The server will run on port 3001 by default
+
+2. **Deploy the Frontend:**
+   - Configure the API URL in `frontend/.env`:
+     ```bash
+     VITE_API_BASE_URL=https://your-server-domain.com
+     ```
+   - Build the frontend: `npm run build`
+   - Deploy the `frontend/dist/` directory to your web hosting
+   - The frontend can be served from any static hosting service (Netlify, Vercel, GitHub Pages, etc.)
+
+3. **CORS Configuration:**
+   - The server already has CORS enabled for all origins
+   - For production, you may want to restrict CORS to your frontend domain only
+   - Edit `server/server.js` and modify the CORS configuration:
+     ```javascript
+     app.use(cors({
+       origin: 'https://your-frontend-domain.com'
+     }))
+     ```
+
 ### How to Use the Web App
 
 1. **Configure your book:**
