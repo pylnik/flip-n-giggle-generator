@@ -241,6 +241,12 @@ export default {
         const response = await fetch(`/api/phrases/${presetId}`)
         if (!response.ok) throw new Error('Failed to load preset')
         
+        // Check if response is JSON
+        const contentType = response.headers.get('content-type')
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Invalid response format from server')
+        }
+        
         const data = await response.json()
         phrasesText.value = data.phrases.join('\n')
         success.value = t('loadedPhrases', { count: data.phrases.length })
