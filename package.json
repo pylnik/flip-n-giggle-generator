@@ -1,0 +1,22 @@
+{
+  "name": "flip-n-giggle-generator",
+  "version": "1.0.0",
+  "description": "Interactive web app for generating flip-n-giggle books",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "jspdf": "^4.0.0",
+    "vue": "^3.4.15"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.3",
+    "vite": "^6.1.7"
+  }
+}
