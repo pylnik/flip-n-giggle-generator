@@ -1,10 +1,10 @@
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { translations } from './translations'
 
 // Detect user's system language
 function detectLanguage() {
-  // Get browser language
-  const browserLang = navigator.language || navigator.userLanguage
+  // Get browser language - use navigator.languages array for better support
+  const browserLang = (navigator.languages && navigator.languages[0]) || navigator.language
   
   // Extract language code (e.g., 'en' from 'en-US')
   const langCode = browserLang.split('-')[0].toLowerCase()
@@ -48,6 +48,14 @@ const savedLang = loadLanguagePreference()
 if (savedLang) {
   currentLanguage.value = savedLang
 }
+
+// Watch for language changes and update HTML lang attribute
+watch(currentLanguage, (newLang) => {
+  const htmlRoot = document.documentElement
+  if (htmlRoot) {
+    htmlRoot.setAttribute('lang', newLang)
+  }
+})
 
 export function useI18n() {
   // Get translation by key with optional placeholder replacement
