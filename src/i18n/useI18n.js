@@ -50,12 +50,12 @@ if (savedLang) {
 }
 
 // Watch for language changes and update HTML lang attribute
+// Use immediate: true to set the lang attribute on initial load
 watch(currentLanguage, (newLang) => {
-  const htmlRoot = document.documentElement
-  if (htmlRoot) {
-    htmlRoot.setAttribute('lang', newLang)
+  if (typeof document !== 'undefined') {
+    document.documentElement.setAttribute('lang', newLang)
   }
-})
+}, { immediate: true })
 
 export function useI18n() {
   // Get translation by key with optional placeholder replacement
