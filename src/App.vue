@@ -1,9 +1,23 @@
 <template>
   <div class="app-container">
     <header class="header">
-      <div class="container">
-        <h1>🎪 Flip-n-Giggle Generator</h1>
-        <p class="subtitle">Create fun flip books for kids!</p>
+      <div class="container header-content">
+        <div class="header-text">
+          <h1>🎪 {{ t('title') }}</h1>
+          <p class="subtitle">{{ t('subtitle') }}</p>
+        </div>
+        <div class="language-switcher">
+          <button 
+            v-for="lang in availableLanguages" 
+            :key="lang"
+            @click="setLanguage(lang)"
+            :class="['lang-btn', { active: locale === lang }]"
+            type="button"
+            :title="getLanguageName(lang)"
+          >
+            {{ getLanguageFlag(lang) }}
+          </button>
+        </div>
       </div>
     </header>
 
@@ -12,10 +26,10 @@
         <div class="card">
           <!-- Main Configuration -->
           <section class="config-section">
-            <h2>📚 Book Configuration</h2>
+            <h2>📚 {{ t('bookConfig') }}</h2>
             
             <div class="form-group">
-              <label for="pageSize">Page Size</label>
+              <label for="pageSize">{{ t('pageSize') }}</label>
               <select id="pageSize" v-model="config.pageSize" class="form-control">
                 <option value="A4">A4</option>
                 <option value="LETTER">Letter</option>
@@ -23,21 +37,21 @@
             </div>
 
             <div class="form-group">
-              <label for="phrasesPerPage">Phrases per Page</label>
+              <label for="phrasesPerPage">{{ t('phrasesPerPage') }}</label>
               <select id="phrasesPerPage" v-model="config.phrasesPerPage" class="form-control">
-                <option :value="1">1 phrase</option>
-                <option :value="2">2 phrases</option>
-                <option :value="4">4 phrases</option>
+                <option :value="1">{{ tp('phrasesPerPageOption', 1) }}</option>
+                <option :value="2">{{ tp('phrasesPerPageOption', 2) }}</option>
+                <option :value="4">{{ tp('phrasesPerPageOption', 4) }}</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label for="cutGuides">Cut Guides</label>
+              <label for="cutGuides">{{ t('cutGuides') }}</label>
               <select id="cutGuides" v-model="config.cutGuides" class="form-control">
-                <option value="internal">Internal lines</option>
-                <option value="box">Box only</option>
-                <option value="all">All guides</option>
-                <option value="none">No guides</option>
+                <option value="internal">{{ t('cutGuidesInternal') }}</option>
+                <option value="box">{{ t('cutGuidesBox') }}</option>
+                <option value="all">{{ t('cutGuidesAll') }}</option>
+                <option value="none">{{ t('cutGuidesNone') }}</option>
               </select>
             </div>
 
@@ -48,23 +62,23 @@
                 @click="showAdvanced = !showAdvanced"
                 type="button"
               >
-                ⚙️ Advanced Settings
+                ⚙️ {{ t('advancedSettings') }}
                 <span class="toggle-icon">{{ showAdvanced ? '▼' : '▶' }}</span>
               </button>
               
               <div v-if="showAdvanced" class="expander-content">
                 <div class="form-group">
-                  <label for="textCase">Text Case</label>
+                  <label for="textCase">{{ t('textCase') }}</label>
                   <select id="textCase" v-model="config.textCase" class="form-control">
-                    <option value="none">Original</option>
-                    <option value="upper">UPPERCASE</option>
-                    <option value="lower">lowercase</option>
-                    <option value="sentence">Sentence case</option>
+                    <option value="none">{{ t('textCaseOriginal') }}</option>
+                    <option value="upper">{{ t('textCaseUpper') }}</option>
+                    <option value="lower">{{ t('textCaseLower') }}</option>
+                    <option value="sentence">{{ t('textCaseSentence') }}</option>
                   </select>
                 </div>
 
                 <div class="form-group">
-                  <label for="maxFont">Maximum Font Size (pt)</label>
+                  <label for="maxFont">{{ t('maxFontSize') }}</label>
                   <input 
                     type="number" 
                     id="maxFont" 
@@ -76,7 +90,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="minFont">Minimum Font Size (pt)</label>
+                  <label for="minFont">{{ t('minFontSize') }}</label>
                   <input 
                     type="number" 
                     id="minFont" 
@@ -88,7 +102,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="margin">Page Margin (pt)</label>
+                  <label for="margin">{{ t('pageMargin') }}</label>
                   <input 
                     type="number" 
                     id="margin" 
@@ -104,7 +118,7 @@
 
           <!-- Phrases Section -->
           <section class="phrases-section">
-            <h2>✏️ Phrases</h2>
+            <h2>✏️ {{ t('phrasesTitle') }}</h2>
             
             <div class="preset-buttons">
               <button 
@@ -115,21 +129,21 @@
                 class="btn btn-secondary"
                 type="button"
               >
-                {{ preset.label }}
+                {{ t(preset.labelKey) }}
               </button>
             </div>
 
             <div class="form-group">
-              <label for="phrasesInput">Enter phrases (one per line: A / B / C)</label>
+              <label for="phrasesInput">{{ t('phrasesInputLabel') }}</label>
               <textarea 
                 id="phrasesInput"
                 v-model="phrasesText"
                 rows="10"
                 class="form-control textarea"
-                placeholder="The cat / tickles / a balloon&#10;The dog / hugs / a cookie&#10;The bear / dances with / a rainbow"
+                :placeholder="t('phrasesPlaceholder')"
               ></textarea>
               <small class="form-hint">
-                Format: "First part / Second part / Third part" or use | or ; as separator
+                {{ t('phrasesHint') }}
               </small>
             </div>
           </section>
@@ -142,7 +156,7 @@
               class="btn btn-primary btn-large"
               type="button"
             >
-              {{ loading ? '⏳ Generating...' : '🎨 Generate PDF' }}
+              {{ loading ? '⏳ ' + t('generating') : '🎨 ' + t('generatePDF') }}
             </button>
           </div>
 
@@ -159,7 +173,7 @@
 
     <footer class="footer">
       <div class="container">
-        <p>Made with ❤️ for kids | <a href="https://github.com/pylnik/flip-n-giggle-generator" target="_blank">GitHub</a></p>
+        <p>{{ t('madeWith') }} | <a href="https://github.com/pylnik/flip-n-giggle-generator" target="_blank">{{ t('github') }}</a></p>
       </div>
     </footer>
   </div>
@@ -168,10 +182,13 @@
 <script>
 import { ref, reactive } from 'vue'
 import { generateFlipBookPDF } from './utils/pdfGenerator'
+import { useI18n } from './i18n/useI18n'
 
 export default {
   name: 'App',
   setup() {
+    const { t, tp, setLanguage, availableLanguages, locale } = useI18n()
+    
     const config = reactive({
       pageSize: 'A4',
       phrasesPerPage: 1,
@@ -191,10 +208,29 @@ export default {
     const success = ref('')
 
     const presets = [
-      { id: 'en', label: '🇬🇧 English' },
-      { id: 'de', label: '🇩🇪 German' },
-      { id: 'ru', label: '🇷🇺 Russian' }
+      { id: 'en', labelKey: 'presetEnglish' },
+      { id: 'de', labelKey: 'presetGerman' },
+      { id: 'ru', labelKey: 'presetRussian' }
     ]
+
+    // Language helper functions
+    const getLanguageFlag = (lang) => {
+      const flags = {
+        en: '🇬🇧',
+        de: '🇩🇪',
+        ru: '🇷🇺'
+      }
+      return flags[lang] || '🌐'
+    }
+
+    const getLanguageName = (lang) => {
+      const names = {
+        en: 'English',
+        de: 'Deutsch',
+        ru: 'Русский'
+      }
+      return names[lang] || lang
+    }
 
     const loadPreset = async (presetId) => {
       loading.value = true
@@ -207,13 +243,13 @@ export default {
         
         const data = await response.json()
         phrasesText.value = data.phrases.join('\n')
-        success.value = `Loaded ${data.phrases.length} phrases!`
+        success.value = t('loadedPhrases', { count: data.phrases.length })
         
         setTimeout(() => {
           success.value = ''
         }, 3000)
       } catch (err) {
-        error.value = 'Could not load preset. Make sure the server is running.'
+        error.value = t('presetLoadError')
         console.error(err)
       } finally {
         loading.value = false
@@ -233,7 +269,7 @@ export default {
           .filter(line => line && !line.startsWith('#'))
 
         if (lines.length === 0) {
-          throw new Error('Please enter at least one phrase')
+          throw new Error(t('enterAtLeastOne'))
         }
 
         const phrases = lines.map(line => {
@@ -246,13 +282,13 @@ export default {
               }
             }
           }
-          throw new Error(`Invalid phrase format: "${line}". Use: A / B / C`)
+          throw new Error(t('invalidPhraseFormat', { phrase: line }))
         })
 
         // Generate PDF
         await generateFlipBookPDF(phrases, config)
         
-        success.value = `PDF generated successfully! (${phrases.length} phrases)`
+        success.value = t('pdfGeneratedSuccess', { count: phrases.length })
         
         setTimeout(() => {
           success.value = ''
@@ -266,6 +302,11 @@ export default {
     }
 
     return {
+      t,
+      tp,
+      setLanguage,
+      availableLanguages,
+      locale,
       config,
       showAdvanced,
       phrasesText,
@@ -274,7 +315,9 @@ export default {
       success,
       presets,
       loadPreset,
-      generatePDF
+      generatePDF,
+      getLanguageFlag,
+      getLanguageName
     }
   }
 }
@@ -291,6 +334,17 @@ export default {
   background: rgba(255, 255, 255, 0.95);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 2rem 1rem;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.header-text {
+  flex: 1;
   text-align: center;
 }
 
@@ -303,6 +357,44 @@ export default {
 .subtitle {
   color: #666;
   font-size: 1.1rem;
+}
+
+.language-switcher {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.lang-btn {
+  width: 48px;
+  height: 48px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.lang-btn:hover {
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.lang-btn.active {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.lang-btn.active:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
 }
 
 .main-content {
@@ -504,6 +596,19 @@ export default {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .header-text {
+    text-align: center;
+  }
+
+  .language-switcher {
+    justify-content: center;
+  }
+
   .header h1 {
     font-size: 1.75rem;
   }
@@ -541,6 +646,12 @@ export default {
 
   .header h1 {
     font-size: 1.5rem;
+  }
+
+  .lang-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1.25rem;
   }
 }
 </style>
