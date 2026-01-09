@@ -238,7 +238,7 @@ export default {
       success.value = ''
       
       try {
-        const response = await fetch(`http://localhost:3001/api/phrases/${presetId}`)
+        const response = await fetch(`/api/phrases/${presetId}`)
         if (!response.ok) throw new Error('Failed to load preset')
         
         const data = await response.json()
