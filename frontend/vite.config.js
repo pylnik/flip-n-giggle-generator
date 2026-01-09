@@ -15,19 +15,16 @@ export default defineConfig(({ mode }) => {
 
   // Only add proxy if we're in development and no API base URL is configured
   if (mode === 'development' && !apiBaseUrl) {
-    config.server.proxy = {
+    const proxyConfig = {
       '/api': {
         target: 'http://localhost:3001',
         changeOrigin: true
       }
     }
+    
+    config.server.proxy = proxyConfig
     config.preview = {
-      proxy: {
-        '/api': {
-          target: 'http://localhost:3001',
-          changeOrigin: true
-        }
-      }
+      proxy: proxyConfig
     }
   }
 
