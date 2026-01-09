@@ -1,8 +1,79 @@
-# Cut-Book PDF Generator
+# Flip-n-Giggle Generator 🎪
+
+A fun tool for creating interactive flip books for kids! Available as both a web app and a Python command-line tool.
+
+## 🌐 Web Application (NEW!)
+
+An interactive Vue.js website that generates flip-n-giggle books directly in your browser!
+
+### Features
+
+- 📱 **Mobile-first responsive design** - works on phones, tablets, and desktops
+- 🎨 **Browser-based PDF generation** - no server-side processing needed
+- 🌍 **Multi-language presets** - English, German, and Russian phrases included
+- ⚙️ **User-friendly interface** - essential settings up front, advanced options hidden
+- 📥 **Instant download** - generate and download PDFs in seconds
+
+### Quick Start
+
+1. **Install dependencies:**
+```bash
+npm install
+```
+
+2. **Start the development server:**
+```bash
+npm run dev
+```
+
+3. **Start the API server (in a separate terminal):**
+```bash
+npm run server
+```
+
+4. **Open your browser:**
+Navigate to `http://localhost:3000`
+
+### Building for Production
+
+```bash
+npm run build
+npm run preview
+```
+
+The built files will be in the `dist/` directory.
+
+### How to Use the Web App
+
+1. **Configure your book:**
+   - Choose page size (A4 or Letter)
+   - Select phrases per page (1, 2, or 4)
+   - Choose cut guide style
+   - Expand "Advanced Settings" for more options
+
+2. **Add phrases:**
+   - Click preset buttons to load pre-saved phrases
+   - Or type your own phrases in format: `A / B / C`
+   - Each phrase becomes three flippable parts
+
+3. **Generate:**
+   - Click "Generate PDF" button
+   - Your flip book downloads automatically!
+
+### Web Technology Stack
+
+- **Frontend:** Vue 3 + Vite
+- **PDF Generation:** jsPDF
+- **Backend API:** Express.js (serves phrase presets)
+- **Styling:** Vanilla CSS with responsive design
+
+---
+
+## 🐍 Python CLI Tool
 
 A standalone Python script that builds printable cut-book PDFs. Each phrase is split into three strips (A / B / C) so you can cut and flip them independently.
 
-## Features
+### Features
 
 - 1, 2, or 4 phrases per page
 - Big, centered text with per-line sizing
@@ -10,13 +81,13 @@ A standalone Python script that builds printable cut-book PDFs. Each phrase is s
 - Case control: normal, upper, lower, sentence
 - Windows-friendly font auto-detection (C:\\Windows\\Fonts)
 
-## Installation
+### Installation
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Usage
+### Usage
 
 Prepare a text file with phrases in one of these formats:
 

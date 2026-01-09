@@ -138,3 +138,9 @@ Thumbs.db
 !phrases*.txt
 !requirements.txt
 *.pdf
+
+# Node.js
+node_modules/
+dist/
+package-lock.json
+.vite/
