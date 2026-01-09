@@ -1,6 +1,10 @@
 import { ref, computed, watch } from 'vue'
 import { translations } from './translations'
 
+// Constants
+const PLACEHOLDER_REGEX = /\{(\w+)\}/g
+const COUNT_PLACEHOLDER = '{count}'
+
 // Detect user's system language
 function detectLanguage() {
   // Get browser language - use navigator.languages array for better support
@@ -64,12 +68,25 @@ export function useI18n() {
     const translation = translations[lang]?.[key] || translations['en']?.[key] || key
     
     // Replace placeholders like {count} with actual values
-    return translation.replace(/\{(\w+)\}/g, (match, param) => {
+    return translation.replace(PLACEHOLDER_REGEX, (match, param) => {
       return params[param] !== undefined ? params[param] : match
     })
   }
   
-  // Get plural form based on count
+  /**
+   * Get plural form based on count
+   * 
+   * Handles language-specific pluralization rules:
+   * - English/German: singular (1) or plural (other)
+   * - Russian: three forms based on complex rules:
+   *   - Form 1: numbers ending in 1 (except 11): 1, 21, 31...
+   *   - Form 2: numbers ending in 2-4 (except 12-14): 2, 3, 4, 22, 23, 24...
+   *   - Form 3: all other numbers: 0, 5-20, 25-30...
+   * 
+   * @param {string} key - Translation key with plural forms separated by |
+   * @param {number} count - Number to determine plural form
+   * @returns {string} Translated text with correct plural form and count inserted
+   */
   const tp = (key, count) => {
     const lang = currentLanguage.value
     const translation = translations[lang]?.[key] || translations['en']?.[key] || key
@@ -80,7 +97,7 @@ export function useI18n() {
     // English and German: singular (1) or plural (other)
     if (lang === 'en' || lang === 'de') {
       const form = count === 1 ? forms[0] : (forms[1] || forms[0])
-      return form.replace('{count}', count)
+      return form.replace(COUNT_PLACEHOLDER, count)
     }
     
     // Russian: complex plural rules
@@ -96,11 +113,11 @@ export function useI18n() {
       } else {
         form = forms[2] || forms[1] || forms[0] // 0, 5-20, 25-30...
       }
-      return form.replace('{count}', count)
+      return form.replace(COUNT_PLACEHOLDER, count)
     }
     
     // Fallback
-    return translation.replace('{count}', count)
+    return translation.replace(COUNT_PLACEHOLDER, count)
   }
   
   // Set current language
