@@ -23,19 +23,33 @@ cd frontend && npm install
 cd ../server && npm install
 ```
 
-2. **Start the API server:**
+2. **Configure the API connection (for production):**
+```bash
+cd frontend
+cp .env.example .env
+```
+Edit `.env` and set `VITE_API_BASE_URL` to your server domain:
+```bash
+# For production with a separate server domain:
+VITE_API_BASE_URL=https://your-server-domain.com
+
+# For local development, leave empty (uses Vite's proxy):
+VITE_API_BASE_URL=
+```
+
+3. **Start the API server:**
 ```bash
 cd server
 npm start
 ```
 
-3. **Start the development server (in a separate terminal):**
+4. **Start the development server (in a separate terminal):**
 ```bash
 cd frontend
 npm run dev
 ```
 
-4. **Open your browser:**
+5. **Open your browser:**
 Navigate to `http://localhost:3000`
 
 ### Building for Production
@@ -47,6 +61,28 @@ npm run preview
 ```
 
 The built files will be in the `frontend/dist/` directory.
+
+### Configuration
+
+The frontend can be configured to connect to a separate server domain:
+
+1. Copy the example environment file:
+   ```bash
+   cd frontend
+   cp .env.example .env
+   ```
+
+2. Edit `.env` and set the server URL:
+   ```bash
+   VITE_API_BASE_URL=https://your-server-domain.com
+   ```
+
+3. Build the frontend:
+   ```bash
+   npm run build
+   ```
+
+**Note:** For local development, you can leave `VITE_API_BASE_URL` empty to use Vite's built-in proxy configuration.
 
 ### How to Use the Web App
 

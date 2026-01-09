@@ -183,6 +183,7 @@
 import { ref, reactive } from 'vue'
 import { generateFlipBookPDF } from './utils/pdfGenerator'
 import { useI18n } from './i18n/useI18n'
+import { getApiUrl } from './utils/apiConfig'
 
 export default {
   name: 'App',
@@ -238,7 +239,7 @@ export default {
       success.value = ''
       
       try {
-        const response = await fetch(`/api/phrases/${presetId}`)
+        const response = await fetch(getApiUrl(`/api/phrases/${presetId}`))
         if (!response.ok) throw new Error('Failed to load preset')
         
         // Check if response is JSON
